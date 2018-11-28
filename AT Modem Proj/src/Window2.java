@@ -172,15 +172,15 @@ public Window2(){
       comboBox.setBounds(270, 108, 284, 35);
       for(int i = 0; i<strarr.length; i++) {
     	comboBox.addItem(strarr[i].getDescriptivePortName());  
-    	index = comboBox.getSelectedIndex();
       }
       p.add(comboBox);
       
       JButton btnNewButton = new JButton("Open Port");
       btnNewButton.addActionListener(new ActionListener() {
       	public void actionPerformed(ActionEvent arg0) {
-      		strarr[3].openPort();
-      		textArea.setText("Opening port " + strarr[3].getDescriptivePortName());
+      		index = comboBox.getSelectedIndex();
+      		strarr[index].openPort();
+      		textArea.setText("Opening port " + strarr[index].getDescriptivePortName());
       		btnNewButton.setEnabled(false);
       	}
       });
@@ -199,8 +199,8 @@ public Window2(){
       		String call = "ATD" + s + ";" + "\r";
       		byte[] bytearr = call.getBytes();	
       		//index = 3;
-      		int j = strarr[3].writeBytes(bytearr, bytearr.length);
-      		textArea.setText(String.format("%d", j));
+      		int j = strarr[index].writeBytes(bytearr, bytearr.length);
+      		textArea.setText("Calling " + s);
       	}
       });
       p.setLayout(null);
@@ -208,6 +208,15 @@ public Window2(){
       p.add(Answer);
       
       JButton HangUp = new JButton("End");
+      HangUp.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent arg0) {
+      		String end = "ATH\r";
+      		byte[] bytearrend = end.getBytes(); 
+      		strarr[index].writeBytes(bytearrend, bytearrend.length);
+      		Action = "Ending call...";
+      		textArea.setText(Action);
+      	}
+      });
       HangUp.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
