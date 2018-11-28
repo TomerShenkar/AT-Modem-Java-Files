@@ -1,7 +1,12 @@
 import javax.swing.*;
+
+import com.fazecast.jSerialComm.SerialPort;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Window2 extends JFrame{
 	
@@ -9,16 +14,15 @@ public class Window2 extends JFrame{
  private JTextField textField;
  private String Action = "Idle";
  private String Callnum = "";
+ private JTextField COMReader;
+ private SerialPort[] strarr = SerialPort.getCommPorts();
+ private int index = 0;
  
- 
- /**
- * 
- */
 public Window2(){ 
 	
 	 JPanel p = new JPanel();
 	 JTextArea textArea = new JTextArea();
-     textArea.setBounds(270, 30, 148, 164);
+     textArea.setBounds(270, 30, 284, 67);
      p.add(textArea);
 	 
 	  JButton button2 = new JButton("2");
@@ -163,16 +167,40 @@ public Window2(){
       
       getContentPane().add(p);
       
+      //PORT
+      JComboBox comboBox = new JComboBox();
+      comboBox.setBounds(270, 108, 284, 35);
+      for(int i = 0; i<strarr.length; i++) {
+    	comboBox.addItem(strarr[i].getDescriptivePortName());  
+    	index = comboBox.getSelectedIndex();
+      }
+      p.add(comboBox);
       
+      JButton btnNewButton = new JButton("Open Port");
+      btnNewButton.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent arg0) {
+      		strarr[3].openPort();
+      		textArea.setText("Opening port " + strarr[3].getDescriptivePortName());
+      		btnNewButton.setEnabled(false);
+      	}
+      });
+      btnNewButton.setBounds(270, 154, 141, 23);
+      p.add(btnNewButton);
+      
+      //CALL
       JButton Answer = new JButton("Call");
       Answer.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
       		Callnum = s;
-      		s = "";
+      		//s = "";
       		Action = "CallingNumber";
       		textArea.setText(Action);
-      		//textField.setText("Ringing");
+      		String call = "ATD" + s + ";" + "\r";
+      		byte[] bytearr = call.getBytes();	
+      		//index = 3;
+      		int j = strarr[3].writeBytes(bytearr, bytearr.length);
+      		textArea.setText(String.format("%d", j));
       	}
       });
       p.setLayout(null);
@@ -193,12 +221,12 @@ public Window2(){
       HangUp.setBounds(200, 240, 60, 30);
       p.add(HangUp);
       
-      JButton Menu1 = new JButton("mnu");
+      JButton Menu1 = new JButton("Menu");
       p.setLayout(null);
       Menu1.setBounds(20, 205, 60, 30);
       p.add(Menu1);
       
-      JButton Menu2= new JButton("Clr");
+      JButton Menu2= new JButton("Clear");
       Menu2.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -233,20 +261,9 @@ public Window2(){
       buttonRIGHT.setBounds(136, 235, 50, 30);
       p.add(buttonRIGHT);
       
-      JButton btnSelectCom = new JButton("Select COM");
-      btnSelectCom.addMouseListener(new MouseAdapter() {
-      	@Override
-      	public void mouseClicked(MouseEvent e) {
-      		WindowCOM cm = new WindowCOM();
-      		cm.NewWindow();
-      	}
-      });
-      btnSelectCom.setBounds(270, 205, 148, 23);
-      p.add(btnSelectCom);
-     
       //setLayout(null);
       setDefaultCloseOperation(3);
-      setSize(460,600);
+      setSize(580,600);
       setVisible(true);
 
      }
