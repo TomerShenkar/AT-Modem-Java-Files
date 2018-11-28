@@ -2,12 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-public class Window2 extends JFrame{
 
+public class Window2 extends JFrame{
+	
  private String s = "";
  private JTextField textField;
  private String Action = "Idle";
  private String Callnum = "";
+ 
  
  /**
  * 
@@ -15,11 +17,9 @@ public class Window2 extends JFrame{
 public Window2(){ 
 	
 	 JPanel p = new JPanel();
-     
 	 JTextArea textArea = new JTextArea();
-     textArea.setBounds(270, 30, 148, 420);
+     textArea.setBounds(270, 30, 148, 164);
      p.add(textArea);
-     
 	 
 	  JButton button2 = new JButton("2");
 	  button2.addMouseListener(new MouseAdapter() {
@@ -233,6 +233,17 @@ public Window2(){
       buttonRIGHT.setBounds(136, 235, 50, 30);
       p.add(buttonRIGHT);
       
+      JButton btnSelectCom = new JButton("Select COM");
+      btnSelectCom.addMouseListener(new MouseAdapter() {
+      	@Override
+      	public void mouseClicked(MouseEvent e) {
+      		WindowCOM cm = new WindowCOM();
+      		cm.NewWindow();
+      	}
+      });
+      btnSelectCom.setBounds(270, 205, 148, 23);
+      p.add(btnSelectCom);
+     
       //setLayout(null);
       setDefaultCloseOperation(3);
       setSize(460,600);
