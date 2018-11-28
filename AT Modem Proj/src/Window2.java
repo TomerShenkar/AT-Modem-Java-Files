@@ -4,17 +4,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 public class Window2 extends JFrame{
 
- private JButton button;
  private String s = "";
  private JTextField textField;
- private JTextField textField_1;
+ private String Action = "Idle";
+ private String Callnum = "";
+ 
  /**
  * 
  */
-public Window2(){
-      
-	 
+public Window2(){ 
+	
 	 JPanel p = new JPanel();
+     
+	 JTextArea textArea = new JTextArea();
+     textArea.setBounds(270, 30, 148, 420);
+     p.add(textArea);
+     
 	 
 	  JButton button2 = new JButton("2");
 	  button2.addMouseListener(new MouseAdapter() {
@@ -22,6 +27,8 @@ public Window2(){
 	  	public void mouseClicked(MouseEvent e) {
 	  		s = s + "2";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		
 	  	}
 	  });
       p.setLayout(null);
@@ -34,6 +41,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "5";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -46,6 +55,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "8";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -58,6 +69,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "0";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -70,6 +83,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent arg0) {
       		s = s + "1";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -82,6 +97,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "4";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -94,6 +111,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "7";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -106,6 +125,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "3";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -118,6 +139,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "6";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -130,6 +153,8 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "9";
       		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
       	}
       });
       p.setLayout(null);
@@ -140,11 +165,30 @@ public Window2(){
       
       
       JButton Answer = new JButton("Call");
+      Answer.addMouseListener(new MouseAdapter() {
+      	@Override
+      	public void mouseClicked(MouseEvent e) {
+      		Callnum = s;
+      		s = "";
+      		Action = "CallingNumber";
+      		textArea.setText(Action);
+      		//textField.setText("Ringing");
+      	}
+      });
       p.setLayout(null);
       Answer.setBounds(20, 240, 60, 30);
       p.add(Answer);
       
       JButton HangUp = new JButton("End");
+      HangUp.addMouseListener(new MouseAdapter() {
+      	@Override
+      	public void mouseClicked(MouseEvent e) {
+      		s = "";
+      		textField.setText(s);
+      		Action = "Idle";
+      		textArea.setText(Action);
+      	}
+      });
       p.setLayout(null);
       HangUp.setBounds(200, 240, 60, 30);
       p.add(HangUp);
@@ -189,14 +233,9 @@ public Window2(){
       buttonRIGHT.setBounds(136, 235, 50, 30);
       p.add(buttonRIGHT);
       
-      textField_1 = new JTextField();
-      textField_1.setBounds(20, 500, 240, 50);
-      p.add(textField_1);
-      textField_1.setColumns(10);
-      
       //setLayout(null);
       setDefaultCloseOperation(3);
-      setSize(300,600);
+      setSize(460,600);
       setVisible(true);
 
      }
