@@ -25,7 +25,9 @@ public Window2(){
      textArea.setBounds(270, 30, 284, 67);
      p.add(textArea);
 	 
-	  JButton button2 = new JButton("2");
+     ImageIcon image2 = new ImageIcon("C:/Users/tomer/Documents/Nokia2.jpg");
+	  JButton button2 = new JButton("");
+	  button2.setIcon(image2);
 	  button2.addMouseListener(new MouseAdapter() {
 	  	@Override
 	  	public void mouseClicked(MouseEvent e) {
@@ -39,7 +41,9 @@ public Window2(){
       button2.setBounds(110,300,60,50);
       p.add(button2);
 	 
-      JButton button5 = new JButton("5");
+      ImageIcon image5 = new ImageIcon("C:/Users/tomer/Documents/Nokia5.jpg");
+      JButton button5 = new JButton("");
+      button5.setIcon(image5);
       button5.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -53,7 +57,9 @@ public Window2(){
       button5.setBounds(110,350,60,50);
       p.add(button5);
       
-      JButton button8 = new JButton("8");
+      ImageIcon image8 = new ImageIcon("C:/Users/tomer/Documents/Nokia8.jpg");
+      JButton button8 = new JButton("");
+      button8.setIcon(image8);
       button8.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -67,7 +73,9 @@ public Window2(){
       button8.setBounds(110,400,60,50);
       p.add(button8);
       
-      JButton button0 = new JButton("0");
+      ImageIcon image0 = new ImageIcon("C:/Users/tomer/Documents/Nokia0.jpg");
+      JButton button0 = new JButton("");
+      button0.setIcon(image0);
       button0.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -81,7 +89,9 @@ public Window2(){
       button0.setBounds(110,450,60,50);
       p.add(button0);
       
-      JButton button1 = new JButton("1");
+      ImageIcon image1 = new ImageIcon("C:/Users/tomer/Documents/Nokia1.png");
+      JButton button1 = new JButton("");
+      button1.setIcon(image1);
       button1.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent arg0) {
@@ -95,7 +105,9 @@ public Window2(){
       button1.setBounds(50,300,60,50);
       p.add(button1);
       
-      JButton button4 = new JButton("4");
+      ImageIcon image4 = new ImageIcon("C:/Users/tomer/Documents/Nokia4.jpg");
+      JButton button4 = new JButton("");
+      button4.setIcon(image4);
       button4.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -109,7 +121,9 @@ public Window2(){
       button4.setBounds(50,350,60,50);
       p.add(button4);
       
-      JButton button7 = new JButton("7");
+      ImageIcon image7 = new ImageIcon("C:/Users/tomer/Documents/Nokia7.jpg");
+      JButton button7 = new JButton("");
+      button7.setIcon(image7);
       button7.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -123,7 +137,9 @@ public Window2(){
       button7.setBounds(50,400,60,50);
       p.add(button7);
       
-      JButton button3 = new JButton("3");
+      ImageIcon image3 = new ImageIcon("C:/Users/tomer/Documents/Nokia3.jpg");
+      JButton button3 = new JButton("");
+      button3.setIcon(image3);
       button3.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -137,7 +153,9 @@ public Window2(){
       button3.setBounds(170,300,60,50);
       p.add(button3);
       
-      JButton button6 = new JButton("6");
+      ImageIcon image6 = new ImageIcon("C:/Users/tomer/Documents/Nokia6.jpg");
+      JButton button6 = new JButton("");
+      button6.setIcon(image6);
       button6.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -151,7 +169,9 @@ public Window2(){
       button6.setBounds(170,350,60,50);
       p.add(button6);
       
-      JButton button9 = new JButton("9");
+      ImageIcon image9 = new ImageIcon("C:/Users/tomer/Documents/Nokia9.jpg");
+      JButton button9 = new JButton("");
+      button9.setIcon(image9);
       button9.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -188,7 +208,9 @@ public Window2(){
       p.add(btnNewButton);
       
       //CALL
-      JButton Answer = new JButton("Call");
+      ImageIcon imageCall = new ImageIcon("C:/Users/tomer/Documents/NokiaAnswer.jpg");
+      JButton Answer = new JButton("");
+      Answer.setIcon(imageCall);
       Answer.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
@@ -199,7 +221,7 @@ public Window2(){
       		String call = "ATD" + s + ";" + "\r";
       		byte[] bytearr = call.getBytes();	
       		//index = 3;
-      		int j = strarr[index].writeBytes(bytearr, bytearr.length);
+      		strarr[index].writeBytes(bytearr, bytearr.length);
       		textArea.setText("Calling " + s);
       	}
       });
@@ -207,7 +229,9 @@ public Window2(){
       Answer.setBounds(20, 240, 60, 30);
       p.add(Answer);
       
-      JButton HangUp = new JButton("End");
+      ImageIcon imageEnd = new ImageIcon("C:/Users/tomer/Documents/NokiaEnd.jpg");
+      JButton HangUp = new JButton("");
+      HangUp.setIcon(imageEnd);
       HangUp.addActionListener(new ActionListener() {
       	public void actionPerformed(ActionEvent arg0) {
       		String end = "ATH\r";
@@ -230,13 +254,17 @@ public Window2(){
       HangUp.setBounds(200, 240, 60, 30);
       p.add(HangUp);
       
-      JButton Menu1 = new JButton("Menu");
+      ImageIcon imageLeft = new ImageIcon("C:/Users/tomer/Documents/NokiaMenuLeft.jpg");
+      JButton MenuLeft = new JButton("");
+      MenuLeft.setIcon(imageLeft);
       p.setLayout(null);
-      Menu1.setBounds(20, 205, 60, 30);
-      p.add(Menu1);
+      MenuLeft.setBounds(20, 205, 60, 30);
+      p.add(MenuLeft);
       
-      JButton Menu2= new JButton("Clear");
-      Menu2.addMouseListener(new MouseAdapter() {
+      ImageIcon imageRight = new ImageIcon("C:/Users/tomer/Documents/NokiaMenuRight.jpg");
+      JButton MenuRight = new JButton("");
+      MenuRight.setIcon(imageRight);
+      MenuRight.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
       		if (s != null && s.length() > 0) {
@@ -246,8 +274,8 @@ public Window2(){
       	}
       });
       p.setLayout(null);
-      Menu2.setBounds(200, 205, 60, 30);
-      p.add(Menu2);
+      MenuRight.setBounds(200, 205, 60, 30);
+      p.add(MenuRight);
       
       textField = new JTextField();
       textField.setBounds(20, 30, 240, 164);
@@ -269,6 +297,35 @@ public Window2(){
       JButton buttonRIGHT = new JButton("→");
       buttonRIGHT.setBounds(136, 235, 50, 30);
       p.add(buttonRIGHT);
+      
+      ImageIcon imageHash = new ImageIcon("C:/Users/tomer/Documents/Nokia#.jpg");
+      JButton buttonHash = new JButton("");
+      buttonHash.setIcon(imageHash);
+      buttonHash.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent e) {
+      		s = s + "#";
+      		textField.setText(s);
+      		Action = "TypingNumber";
+      		textArea.setText(Action);
+      	}
+      });
+      buttonHash.setBounds(170, 450, 60, 50);
+      p.add(buttonHash);
+      
+      ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
+      JButton buttonStar = new JButton("");
+      buttonStar.setIcon(imageStar);
+      buttonStar.addActionListener(new ActionListener() {
+      		public void actionPerformed(ActionEvent e) {
+          		s = s + "*";
+          		textField.setText(s);
+          		Action = "TypingNumber";
+          		textArea.setText(Action);
+          	}
+      	}
+      );
+      buttonStar.setBounds(50, 450, 60, 50);
+      p.add(buttonStar);
       
       //setLayout(null);
       setDefaultCloseOperation(3);
