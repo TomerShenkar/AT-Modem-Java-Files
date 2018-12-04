@@ -10,10 +10,10 @@ import java.awt.event.ActionEvent;
 
 public class Window2 extends JFrame{
 	
- private String s = "";
+ private static String s = "";
  private JTextField textField;
  private String Action = "Idle";
- private String Callnum = "";
+ private static String Callnum = "";
  private JTextField COMReader;
  private SerialPort[] strarr = SerialPort.getCommPorts();
  private int index = 0;
@@ -324,8 +324,21 @@ public Window2(){
           	}
       	}
       );
+      
+      
+      
       buttonStar.setBounds(50, 450, 60, 50);
       p.add(buttonStar);
+      
+      JButton btnSms = new JButton("SMS");
+      btnSms.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent arg0) {
+      		smsSender Win = new smsSender();
+      		Win.NewScreen();
+      	}
+      });
+      btnSms.setBounds(270, 188, 152, 35);
+      p.add(btnSms);
       
       //setLayout(null);
       setDefaultCloseOperation(3);
@@ -333,7 +346,11 @@ public Window2(){
       setVisible(true);
 
      }
-   public static void main(String...args){
+	
+public static String getCallnum() {
+	  return s;
+}
+	public static void main(String...args){
        new Window2();
        }
 }
