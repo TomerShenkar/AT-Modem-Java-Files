@@ -4,9 +4,6 @@ import javax.swing.*;
 
 import com.fazecast.jSerialComm.SerialPort;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -54,7 +51,7 @@ public class smsSender {
 		textArea.setBounds(236, 144, 198, 28);
 		frame.getContentPane().add(textArea);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setToolTipText("Select COM");
 		comboBox.setBounds(236, 43, 198, 35);
 		for(int i = 0; i<strarr.length; i++) {
@@ -84,7 +81,7 @@ public class smsSender {
 		JButton btnNewButton_1 = new JButton("Send Text");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String SMS = "AT+CMGS=" + "\"0546951919\"";
+				String SMS = "AT+CMGS=" + "\"0525246585\"" + "\r";
 	      		byte[] bytearr = SMS.getBytes();	
 	      		//index = 3;
 	      		strarr[index].writeBytes(bytearr, bytearr.length);
@@ -93,11 +90,10 @@ public class smsSender {
 	      		try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	      		
-	      		String MSG = "TestCom";
+	      		String MSG = textField.getText();
 	        	byte[] bytearr2 = MSG.getBytes();
 	      		strarr[index].writeBytes(bytearr2, bytearr2.length);
 	      		textArea.setText(MSG);
@@ -105,7 +101,7 @@ public class smsSender {
 	      		byte[] bytearr3 = new byte[1];
 	      		bytearr3[0] = 26;
 	      		strarr[index].writeBytes(bytearr3, bytearr3.length);
-	      		textArea.setText("Completed");
+	    		textArea.setText("Completed");
 			}
 		});
 		btnNewButton_1.setBounds(10, 179, 100, 23);
