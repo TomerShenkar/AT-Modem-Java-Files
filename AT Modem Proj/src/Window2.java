@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 public class Window2 extends JFrame{
 	
  private static String s = "";
- private JTextField textField;
+ private static JTextField textField;
  
  private static String Callnum = "";
  private JTextField COMReader;
@@ -22,24 +22,23 @@ public class Window2 extends JFrame{
 		Idle, TypingNumber, TypingMessage, Dialing, Ringing, DuringCall;
 	}
 	
-	State PhoneState = State.Idle;
- 
-public Window2(){ 
+	static State PhoneState = State.Idle;
+	private static JTextArea textArea;
 	
+public Window2(){ 
+		
 	 JPanel p = new JPanel();
-	 JTextArea textArea = new JTextArea();
+	 textArea = new JTextArea();
      textArea.setBounds(270, 30, 284, 67);
      p.add(textArea);
-	 
+     
      ImageIcon image2 = new ImageIcon("C:/Users/tomer/Documents/Nokia2.jpg");
 	  JButton button2 = new JButton("");
 	  button2.setIcon(image2);
 	  button2.addMouseListener(new MouseAdapter() {
 	  	@Override
 	  	public void mouseClicked(MouseEvent e) {
-	  		s = s + "2";
-      		textField.setText(s);
-      		
+	  		CreatingNumber("2");
 	  	}
 	  });
       p.setLayout(null);
@@ -52,9 +51,7 @@ public Window2(){
       button5.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "5";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("5");
       	}
       });
       p.setLayout(null);
@@ -67,9 +64,7 @@ public Window2(){
       button8.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "8";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("8");
       	}
       });
       p.setLayout(null);
@@ -82,9 +77,7 @@ public Window2(){
       button0.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "0";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("0");
       	}
       });
       p.setLayout(null);
@@ -97,9 +90,7 @@ public Window2(){
       button1.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent arg0) {
-      		s = s + "1";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("1");
       	}
       });
       p.setLayout(null);
@@ -112,9 +103,7 @@ public Window2(){
       button4.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "4";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("4");
       	}
       });
       p.setLayout(null);
@@ -127,9 +116,7 @@ public Window2(){
       button7.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "7";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("7");
       	}
       });
       p.setLayout(null);
@@ -142,9 +129,7 @@ public Window2(){
       button3.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "3";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("3");
       	}
       });
       p.setLayout(null);
@@ -157,9 +142,7 @@ public Window2(){
       button6.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "6";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("6");
       	}
       });
       p.setLayout(null);
@@ -172,9 +155,7 @@ public Window2(){
       button9.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		s = s + "9";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("9");
       	}
       });
       p.setLayout(null);
@@ -259,6 +240,7 @@ public Window2(){
       		s = "";
       		textField.setText(s);
       		PhoneState = State.Idle;
+      		textArea.setText(PhoneState.toString());
       	}
       });
       p.setLayout(null);
@@ -286,7 +268,7 @@ public Window2(){
       	        s = s.substring(0, s.length() - 1);
       	        textField.setText(s);
       	        if(s.length() == 0) {
-      	        	PhoneState = State.TypingNumber;
+      	        	PhoneState = State.Idle;
       	        }
       	    }
       	}
@@ -321,9 +303,7 @@ public Window2(){
       buttonHash.setIcon(imageHash);
       buttonHash.addActionListener(new ActionListener() {
       	public void actionPerformed(ActionEvent e) {
-      		s = s + "#";
-      		textField.setText(s);
-      		PhoneState = State.TypingNumber;
+      		CreatingNumber("#");
       	}
       });
       buttonHash.setBounds(170, 450, 60, 50);
@@ -334,14 +314,10 @@ public Window2(){
       buttonStar.setIcon(imageStar);
       buttonStar.addActionListener(new ActionListener() {
       		public void actionPerformed(ActionEvent e) {
-          		s = s + "*";
-          		textField.setText(s);
-          		PhoneState = State.TypingNumber;
+      			CreatingNumber("*");
           	}
       	}
       );
-      
-      
       
       buttonStar.setBounds(50, 450, 60, 50);
       p.add(buttonStar);
@@ -362,6 +338,13 @@ public Window2(){
 
      }
 	
+public static void CreatingNumber(String n) {
+	 s = s + n;
+	 textField.setText(s);
+	 PhoneState = State.TypingNumber;
+	 textArea.setText(PhoneState.toString());
+}
+
 public static String getCallnum() {
 	  return s;
 }
