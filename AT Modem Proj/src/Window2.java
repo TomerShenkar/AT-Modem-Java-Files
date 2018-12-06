@@ -1,22 +1,28 @@
 import javax.swing.*;
 
 import com.fazecast.jSerialComm.SerialPort;
-
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings({"unused", "serial"})
 public class Window2 extends JFrame{
 	
  private static String s = "";
  private JTextField textField;
- private String Action = "Idle";
+ 
  private static String Callnum = "";
  private JTextField COMReader;
  private SerialPort[] strarr = SerialPort.getCommPorts();
  private int index = 0;
+ private static SerialPort PortChosen;
+ 
+	private static enum State{
+		Idle, TypingNumber, TypingMessage, Dialing, Ringing, DuringCall;
+	}
+	
+	State PhoneState = State.Idle;
  
 public Window2(){ 
 	
@@ -33,7 +39,6 @@ public Window2(){
 	  	public void mouseClicked(MouseEvent e) {
 	  		s = s + "2";
       		textField.setText(s);
-      		Action = "TypingNumber";
       		
 	  	}
 	  });
@@ -49,8 +54,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "5";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -65,8 +69,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "8";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -81,8 +84,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "0";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -97,8 +99,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent arg0) {
       		s = s + "1";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -113,8 +114,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "4";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -129,8 +129,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "7";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -145,8 +144,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "3";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -161,8 +159,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "6";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -177,8 +174,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = s + "9";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       p.setLayout(null);
@@ -187,8 +183,8 @@ public Window2(){
       
       getContentPane().add(p);
       
-      //PORT
-      JComboBox comboBox = new JComboBox();
+      //PORT 
+      JComboBox<String> comboBox = new JComboBox<String>();
       comboBox.setBounds(270, 108, 284, 35);
       for(int i = 0; i<strarr.length; i++) {
     	comboBox.addItem(strarr[i].getDescriptivePortName());  
@@ -199,36 +195,53 @@ public Window2(){
       btnNewButton.addActionListener(new ActionListener() {
       	public void actionPerformed(ActionEvent arg0) {
       		index = comboBox.getSelectedIndex();
-      		strarr[index].openPort();
-      		textArea.setText("Opening port " + strarr[index].getDescriptivePortName());
+      		PortChosen = strarr[index];
+      		PortChosen.openPort();
+      		textArea.setText("Opening port " + PortChosen.getDescriptivePortName());
       		btnNewButton.setEnabled(false);
       	}
       });
       btnNewButton.setBounds(270, 154, 141, 23);
       p.add(btnNewButton);
       
-      //CALL
+      //CALL CALL
       ImageIcon imageCall = new ImageIcon("C:/Users/tomer/Documents/NokiaAnswer.jpg");
       JButton Answer = new JButton("");
+      Answer.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent arg0) {
+      	}
+      });
       Answer.setIcon(imageCall);
       Answer.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		Callnum = s;
-      		//s = "";
-      		Action = "CallingNumber";
-      		textArea.setText(Action);
-      		String call = "ATD" + s + ";" + "\r";
-      		byte[] bytearr = call.getBytes();	
-      		//index = 3;
-      		strarr[index].writeBytes(bytearr, bytearr.length);
-      		textArea.setText("Calling " + s);
+      		switch(PhoneState) {
+      			case TypingNumber :
+      				Callnum = s;
+      	      		//s = "";
+      	      		State Dialing;
+      	      		String call = "ATD" + s + ";" + "\r";
+      	      		byte[] bytearr = call.getBytes();	
+      	      		//index = 3;
+      	      		PortChosen.writeBytes(bytearr, bytearr.length);
+      	      		textArea.setText("Calling " + s);
+      				break;
+      			
+      			case Ringing :
+      				//Answer
+      				break;
+      				
+      			default :
+      				break;
+      		  }
+      		}
       	}
-      });
+      );
       p.setLayout(null);
       Answer.setBounds(20, 240, 60, 30);
       p.add(Answer);
       
+      //END CALL 
       ImageIcon imageEnd = new ImageIcon("C:/Users/tomer/Documents/NokiaEnd.jpg");
       JButton HangUp = new JButton("");
       HangUp.setIcon(imageEnd);
@@ -237,8 +250,7 @@ public Window2(){
       		String end = "ATH\r";
       		byte[] bytearrend = end.getBytes(); 
       		strarr[index].writeBytes(bytearrend, bytearrend.length);
-      		Action = "Ending call...";
-      		textArea.setText(Action);
+      		State Idle;
       	}
       });
       HangUp.addMouseListener(new MouseAdapter() {
@@ -246,8 +258,7 @@ public Window2(){
       	public void mouseClicked(MouseEvent e) {
       		s = "";
       		textField.setText(s);
-      		Action = "Idle";
-      		textArea.setText(Action);
+      		PhoneState = State.Idle;
       	}
       });
       p.setLayout(null);
@@ -263,6 +274,10 @@ public Window2(){
       
       ImageIcon imageRight = new ImageIcon("C:/Users/tomer/Documents/NokiaMenuRight.jpg");
       JButton MenuRight = new JButton("");
+      MenuRight.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent e) {
+      	}
+      });
       MenuRight.setIcon(imageRight);
       MenuRight.addMouseListener(new MouseAdapter() {
       	@Override
@@ -270,6 +285,9 @@ public Window2(){
       		if (s != null && s.length() > 0) {
       	        s = s.substring(0, s.length() - 1);
       	        textField.setText(s);
+      	        if(s.length() == 0) {
+      	        	PhoneState = State.TypingNumber;
+      	        }
       	    }
       	}
       });
@@ -305,8 +323,7 @@ public Window2(){
       	public void actionPerformed(ActionEvent e) {
       		s = s + "#";
       		textField.setText(s);
-      		Action = "TypingNumber";
-      		textArea.setText(Action);
+      		PhoneState = State.TypingNumber;
       	}
       });
       buttonHash.setBounds(170, 450, 60, 50);
@@ -319,8 +336,7 @@ public Window2(){
       		public void actionPerformed(ActionEvent e) {
           		s = s + "*";
           		textField.setText(s);
-          		Action = "TypingNumber";
-          		textArea.setText(Action);
+          		PhoneState = State.TypingNumber;
           	}
       	}
       );
@@ -333,8 +349,7 @@ public Window2(){
       JButton btnSms = new JButton("SMS");
       btnSms.addActionListener(new ActionListener() {
       	public void actionPerformed(ActionEvent arg0) {
-      		smsSender Win = new smsSender();
-      		Win.NewScreen();
+      		smsSender.NewScreen();
       	}
       });
       btnSms.setBounds(270, 188, 152, 35);
@@ -349,6 +364,10 @@ public Window2(){
 	
 public static String getCallnum() {
 	  return s;
+}
+
+public static SerialPort getSP() {
+	return PortChosen;
 }
 	public static void main(String...args){
        new Window2();
