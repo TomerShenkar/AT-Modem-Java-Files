@@ -3,12 +3,15 @@ import javax.swing.text.DefaultCaret;
 
 import com.fazecast.jSerialComm.*;
 import java.awt.event.*;
+import java.util.Arrays;
+import DS.Queue;
+
 
 @SuppressWarnings({"unused", "serial"})
 public class Window2 extends JFrame{
 	
  private static String s = "";
- private static JTextField textField;
+ private static JTextField textField_main;
  
  private static String Callnum = "";
  private JTextField COMReader;
@@ -16,26 +19,33 @@ public class Window2 extends JFrame{
  private int index = 0;
  private static SerialPort PortChosen;
  
-private static enum State{
+ private static String Save = "";
+ private static Queue<String> q = new Queue<>();
+ 
+private static enum State {
 		Idle, TypingNumber, TypingMessage, Dialing, Ringing, DuringCall;
 	}
 	
 	static State PhoneState = State.Idle;
-	private static JTextArea textArea;
+	
+	private static JTextArea textArea_State;
+	private static JTextArea textArea_Debug;
 	private JButton Answer;
 	
-public Window2(){ 
-		
+	
+public Window2(){
+	setTitle("NokiaPhone"); 
+	
 	 JPanel p = new JPanel();
-	 textArea = new JTextArea();
-     textArea.setBounds(270, 30, 141, 35);
-     p.add(textArea);
+	 textArea_State = new JTextArea();
+     textArea_State.setBounds(270, 30, 284, 35);
+     p.add(textArea_State);
      
      JScrollPane scrollPane = new JScrollPane();
      scrollPane.setBounds(270, 205, 243, 145);
      p.add(scrollPane);
      
-     JTextArea textArea_Debug = new JTextArea();
+     textArea_Debug = new JTextArea();
      scrollPane.setViewportView(textArea_Debug);
      DefaultCaret caret = (DefaultCaret)textArea_Debug.getCaret();
 	 caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -240,10 +250,10 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
      	public void mouseClicked(MouseEvent e) {
      		if (s != null && s.length() > 0) {
      	        s = s.substring(0, s.length() - 1);
-     	        textField.setText(s);
+     	        textField_main.setText(s);
      	        if(s.length() == 0) {
      	        	PhoneState = State.Idle;
-     	        	textArea.setText(PhoneState.toString());
+     	        	textArea_State.setText(PhoneState.toString());
      	        }
      	    }
      	}
@@ -288,7 +298,7 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       		PortChosen = strarr[index];
       		PortChosen.openPort();
       		Answer.setEnabled(true);
-      		textArea.setText("Opening port " + PortChosen.getDescriptivePortName());
+      		textArea_State.setText("Opening port " + PortChosen.getDescriptivePortName());
       		btnNewButton.setEnabled(false);
       		
       		PortChosen.addDataListener(new SerialPortDataListener() {
@@ -307,8 +317,9 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
     						 if (numRead > 0)
     						 {
     				  //	  System.out.print(new String(newData));
-    						textArea_Debug.append(new String(newData));
-    						
+    				 //		textArea_Debug.append(new String(newData));
+    							 byte[] bytarr = Arrays.copyOfRange(newData, 0, numRead);
+    							 getLine(bytarr);
     							}			    	  
     						 }
     				 }
@@ -335,16 +346,20 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       			case TypingNumber :
       				Callnum = s;
       	      		//s = "";
-      	      		State Dialing;
+      	      		PhoneState = State.Dialing;
       	      		String call = "ATD" + s + ";" + "\r";
       	      		byte[] bytearr = call.getBytes();	
       	      		//index = 3;
       	      		PortChosen.writeBytes(bytearr, bytearr.length);
-      	      		textArea.setText("Calling " + s);
+      	      		textArea_State.setText("Calling " + s);
       				break;
       			
       			case Ringing :
-      				//Answer
+      				String Answer = "ATA\r";
+      	      		byte[] bytearrAnswer = Answer.getBytes();	
+      	      		//index = 3;
+      	      		PortChosen.writeBytes(bytearrAnswer, bytearrAnswer.length);
+      	      		textField_main.setText("In Call");
       				break;
       				
       			default :
@@ -367,16 +382,16 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       		String end = "ATH\r";
       		byte[] bytearrend = end.getBytes(); 
       		PortChosen.writeBytes(bytearrend, bytearrend.length);
-      		State Idle;
+      		PhoneState = State.Idle;
       	}
       });
       HangUp.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
       		s = "";
-      		textField.setText(s);
+      		textField_main.setText(s);
       		PhoneState = State.Idle;
-      		textArea.setText(PhoneState.toString());
+      		textArea_State.setText(PhoneState.toString());
       	}
       });
       p.setLayout(null);
@@ -384,23 +399,43 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       p.add(HangUp);
       
       
-      textField = new JTextField();
-      textField.setBounds(20, 30, 240, 164);
-      p.add(textField);
-      textField.setColumns(10);
+      textField_main = new JTextField();
+      textField_main.setBounds(20, 30, 240, 164);
+      p.add(textField_main);
+      textField_main.setColumns(10);
       
       //setLayout(null);
       setDefaultCloseOperation(3);
       setSize(580,600);
       setVisible(true);
-
+      
+      addWindowListener(new WindowAdapter() {
+  		public void windowClosing(WindowEvent arg0) {
+  			String endc = "ATH\r";
+        		byte[] bytearrendc = endc.getBytes(); 
+        		PortChosen.writeBytes(bytearrendc, bytearrendc.length);
+  			PortChosen.closePort();
+  		}
+  	});
+      
      } //END OF WINDOW2
-	
+
+public static void getLine(byte[] bytarr) {
+	for(int i = 0; i<bytarr.length; i++) {
+		Save = Save + (char)bytarr[i];
+		if(bytarr[i] == 10) {
+			textArea_Debug.append(Save);
+			//q.insert(Save);
+			Save = "";
+		}
+	} 
+} 
+
 public static void CreatingNumber(String n) {
 	 s = s + n;
-	 textField.setText(s);
+	 textField_main.setText(s);
 	 PhoneState = State.TypingNumber;
-	 textArea.setText(PhoneState.toString());
+	 textArea_State.setText(PhoneState.toString());
 }
 
 public static String getCallnum() {
@@ -410,7 +445,24 @@ public static String getCallnum() {
 public static SerialPort getSP() {
 	return PortChosen;
 }
-	public static void main(String...args){
+	
+public static void main(String...args){
        new Window2();
-       }
+      /*
+       *  while(!q.isEmpty()){
+         	String temp = q.remove();
+         	if(temp.equals("RING\r\n")) {
+         		PhoneState = State.Ringing;
+         		textField_main.setText("Incoming call");
+         	}
+           else
+           	if(temp.substring(0, 6).equals("+CLIP:")) {
+           		String[] parts = temp.split(",");
+          	String Number = parts[1];
+          	PhoneState = State.Ringing;
+     		textField_main.setText("Incoming call from " + Number);
+    	}
+      }
+       */
+   }
 }
