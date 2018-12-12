@@ -3,12 +3,18 @@ import javax.swing.text.DefaultCaret;
 
 import com.fazecast.jSerialComm.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import DS.Queue;
 
 
 @SuppressWarnings({"unused", "serial"})
 public class Window2 extends JFrame{
+
+private static String Time;
 	
  private static String s = "";
  private static JTextField textField_main;
@@ -18,10 +24,10 @@ public class Window2 extends JFrame{
  private SerialPort[] strarr = SerialPort.getCommPorts();
  private int index = 0;
  private static SerialPort PortChosen;
- 
- private static String Save = "";
- private static Queue<String> q = new Queue<>();
- 
+ private static LocalDateTime modemTime;
+
+ private static getLine GetLine = new getLine();
+ private static boolean isGMT = false;
 private static enum State {
 		Idle, TypingNumber, TypingMessage, Dialing, Ringing, DuringCall;
 	}
@@ -34,7 +40,6 @@ private static enum State {
 	
 	
 public Window2(){
-	setTitle("NokiaPhone"); 
 	
 	 JPanel p = new JPanel();
 	 textArea_State = new JTextArea();
@@ -319,11 +324,83 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
     				  //	  System.out.print(new String(newData));
     				 //		textArea_Debug.append(new String(newData));
     							 byte[] bytarr = Arrays.copyOfRange(newData, 0, numRead);
-    							 getLine(bytarr);
+    							 GetLine.addRaw(bytarr);
+								while (!GetLine.getQ().isEmpty()) {
+									String temp = GetLine.getNext();
+									if(temp != null) {
+										if(isGMT) {
+											String MSG = temp;
+											textArea_Debug.setText(MSG);
+										}
+										else if (temp.equals("RING\r\n")) {
+											PhoneState = State.Ringing;
+											textField_main.setText("Incoming call");
+										} 
+											else if (temp.startsWith("+CLIP:")) {
+											String[] parts = temp.split("\"");
+											String Number = parts[1];
+											PhoneState = State.Ringing;
+											textField_main.setText("Incoming call from " + Number);
+										} 
+											else if (temp.startsWith("NO CARRIER")) {
+											PhoneState = State.Idle;
+											textArea_State.setText("Call Ended");
+										} 
+											else if (temp.startsWith("+CCLK:")) {
+											String ST = temp;
+											String[] parts = ST.split("\"");
+											String BigDate = parts[1].toString();
+											String[] BigDateParts = BigDate.split(",");
+											String Date = BigDateParts[0];
+											String[] Dateparts = Date.split("/");
+
+											String BigTime = BigDateParts[1];
+											String[] Timeparts = BigTime.split("\\+");
+											String FinalTime = Timeparts[0].toString();
+											String[] FinalTimeparts = FinalTime.split(":");
+											// System.out.println(FinalTime);
+
+											int Year = Integer.parseInt(Dateparts[0]) + 2000;
+											int Month = Integer.parseInt(Dateparts[1]);
+											int Day = Integer.parseInt(Dateparts[2]);
+
+											int Hour = Integer.parseInt(FinalTimeparts[0]);
+											int Minute = Integer.parseInt(FinalTimeparts[1]);
+											int Second = Integer.parseInt(FinalTimeparts[2]);
+
+											modemTime = LocalDateTime.of(Year, Month, Day, Hour, Minute, Second);
+											// System.out.println(modemTime);
+
+											Timer timer = new Timer();
+											TimerTask timertask = new TimerTask() {
+												@Override
+												public void run() {
+													modemTime = modemTime.plusSeconds(1);
+													setTitle(modemTime.toString());
+												}
+											};
+											timer.schedule(timertask, 1000L, 1000L);
+										} 
+											else if (temp.startsWith("+CMT:")) {
+											String Sender = temp;
+											String Number = processMSG(temp);
+											textArea_Debug.setText("Message from " + Number);
+											isGMT = true;	
+										  }
+											else {
+												//None of the above
+											}
+									}
+    							    }
     							}			    	  
     						 }
     				 }
     			});
+
+	       	String time = "AT+CCLK?\r";
+      		byte[] bytearrtime = time.getBytes(); 
+      		PortChosen.writeBytes(bytearrtime, bytearrtime.length);
+      		
       	}
       });
       btnNewButton.setBounds(270, 122, 141, 23);
@@ -342,29 +419,7 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       Answer.addMouseListener(new MouseAdapter() {
       	@Override
       	public void mouseClicked(MouseEvent e) {
-      		switch(PhoneState) {
-      			case TypingNumber :
-      				Callnum = s;
-      	      		//s = "";
-      	      		PhoneState = State.Dialing;
-      	      		String call = "ATD" + s + ";" + "\r";
-      	      		byte[] bytearr = call.getBytes();	
-      	      		//index = 3;
-      	      		PortChosen.writeBytes(bytearr, bytearr.length);
-      	      		textArea_State.setText("Calling " + s);
-      				break;
-      			
-      			case Ringing :
-      				String Answer = "ATA\r";
-      	      		byte[] bytearrAnswer = Answer.getBytes();	
-      	      		//index = 3;
-      	      		PortChosen.writeBytes(bytearrAnswer, bytearrAnswer.length);
-      	      		textField_main.setText("In Call");
-      				break;
-      				
-      			default :
-      				break;
-      		  }
+      			AnswerKey();
       		}
       	}
       );
@@ -382,6 +437,7 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       		String end = "ATH\r";
       		byte[] bytearrend = end.getBytes(); 
       		PortChosen.writeBytes(bytearrend, bytearrend.length);
+      		textArea_Debug.setText(end);
       		PhoneState = State.Idle;
       	}
       });
@@ -397,7 +453,6 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       p.setLayout(null);
       HangUp.setBounds(200, 240, 60, 30);
       p.add(HangUp);
-      
       
       textField_main = new JTextField();
       textField_main.setBounds(20, 30, 240, 164);
@@ -417,19 +472,8 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
   			PortChosen.closePort();
   		}
   	});
-      
      } //END OF WINDOW2
 
-public static void getLine(byte[] bytarr) {
-	for(int i = 0; i<bytarr.length; i++) {
-		Save = Save + (char)bytarr[i];
-		if(bytarr[i] == 10) {
-			textArea_Debug.append(Save);
-			//q.insert(Save);
-			Save = "";
-		}
-	} 
-} 
 
 public static void CreatingNumber(String n) {
 	 s = s + n;
@@ -438,31 +482,49 @@ public static void CreatingNumber(String n) {
 	 textArea_State.setText(PhoneState.toString());
 }
 
+
 public static String getCallnum() {
 	  return s;
+}
+
+public static String processMSG(String MSG) {
+	String[] MSGParts = MSG.split("\"");
+	String Number = MSGParts[1];
+	return Number;
 }
 
 public static SerialPort getSP() {
 	return PortChosen;
 }
-	
-public static void main(String...args){
-       new Window2();
-      /*
-       *  while(!q.isEmpty()){
-         	String temp = q.remove();
-         	if(temp.equals("RING\r\n")) {
-         		PhoneState = State.Ringing;
-         		textField_main.setText("Incoming call");
-         	}
-           else
-           	if(temp.substring(0, 6).equals("+CLIP:")) {
-           		String[] parts = temp.split(",");
-          	String Number = parts[1];
-          	PhoneState = State.Ringing;
-     		textField_main.setText("Incoming call from " + Number);
-    	}
-      }
-       */
+
+public static void AnswerKey() {
+	switch(PhoneState) {
+		case TypingNumber :
+			Callnum = s;
+    		//s = "";
+    		PhoneState = State.Dialing;
+    		String call = "ATD" + s + ";" + "\r";
+    		byte[] bytearr = call.getBytes();	
+    		//index = 3;
+    		PortChosen.writeBytes(bytearr, bytearr.length);
+    		textArea_State.setText("Calling " + s);
+			break;
+		
+		case Ringing :
+			String Answer = "ATA\r";
+    		byte[] bytearrAnswer = Answer.getBytes();	
+    		//index = 3;
+    		PortChosen.writeBytes(bytearrAnswer, bytearrAnswer.length);
+    		textField_main.setText("In Call");
+			break;
+			
+		default :
+			break;
+	  }
+}
+
+public static void main(String[] args){   
+	new Window2();
+       
    }
 }
