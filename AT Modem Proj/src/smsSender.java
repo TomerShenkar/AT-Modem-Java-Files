@@ -1,8 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.*;
-
-import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.*;
 
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionListener;
@@ -92,20 +91,21 @@ public class smsSender {
 	      		textArea.setText(SMS);
 	      		
 	      		try {
-					TimeUnit.SECONDS.sleep(2);
+					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 	      		
-	      		String MSG = textField.getText();
-	        	byte[] bytearr2 = MSG.getBytes();
-	        	SP.writeBytes(bytearr2, bytearr2.length);
-	      		textArea.setText(MSG);
 	      		
-	      		byte[] bytearr3 = new byte[1];
-	      		bytearr3[0] = 26;
-	      		SP.writeBytes(bytearr3, bytearr3.length);
-	    		textArea.setText("Sending a text to " + Num);
+	      		String MSG = textField.getText();
+		        byte[] bytearr2 = MSG.getBytes();
+		        SP.writeBytes(bytearr2, bytearr2.length);
+		      	textArea.setText(MSG);
+		      		
+		      	byte[] bytearr3 = new byte[1];
+		      	bytearr3[0] = 26;
+		      	SP.writeBytes(bytearr3, bytearr3.length);
+		    	textArea.setText("Sending a text to " + Num);      		
 			}
 		});
 		btnNewButton_1.setBounds(10, 179, 100, 23);

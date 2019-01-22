@@ -57,7 +57,7 @@ public Window2(){
 	 scrollPane.setViewportView(textArea_Debug);
            
      
-     ImageIcon image1 = new ImageIcon("C:/Users/tomer/Documents/Nokia1.png");
+     ImageIcon image1 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia1.png");
      JButton button1 = new JButton("");
      button1.setIcon(image1);
      button1.addMouseListener(new MouseAdapter() {
@@ -71,7 +71,7 @@ public Window2(){
      p.add(button1);
 
 
-ImageIcon image2 = new ImageIcon("C:/Users/tomer/Documents/Nokia2.jpg");
+ImageIcon image2 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia2.jpg");
 	  JButton button2 = new JButton("");
 	  button2.setIcon(image2);
 	  button2.addMouseListener(new MouseAdapter() {
@@ -85,7 +85,7 @@ ImageIcon image2 = new ImageIcon("C:/Users/tomer/Documents/Nokia2.jpg");
      p.add(button2);
 	 
      
-ImageIcon image3 = new ImageIcon("C:/Users/tomer/Documents/Nokia3.jpg");	 
+ImageIcon image3 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia3.jpg");	 
 	JButton button3 = new JButton("");
      button3.setIcon(image3);
      button3.addMouseListener(new MouseAdapter() {
@@ -99,7 +99,7 @@ ImageIcon image3 = new ImageIcon("C:/Users/tomer/Documents/Nokia3.jpg");
      p.add(button3);
      
 	  
-ImageIcon image4 = new ImageIcon("C:/Users/tomer/Documents/Nokia4.jpg");
+ImageIcon image4 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia4.jpg");
      JButton button4 = new JButton("");
      button4.setIcon(image4);
      button4.addMouseListener(new MouseAdapter() {
@@ -113,7 +113,7 @@ ImageIcon image4 = new ImageIcon("C:/Users/tomer/Documents/Nokia4.jpg");
      p.add(button4);
      
 	  
-ImageIcon image5 = new ImageIcon("C:/Users/tomer/Documents/Nokia5.jpg");
+ImageIcon image5 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia5.jpg");
      JButton button5 = new JButton("");
      button5.setIcon(image5);
      button5.addMouseListener(new MouseAdapter() {
@@ -127,7 +127,7 @@ ImageIcon image5 = new ImageIcon("C:/Users/tomer/Documents/Nokia5.jpg");
      p.add(button5);
      
 	  
-ImageIcon image6 = new ImageIcon("C:/Users/tomer/Documents/Nokia6.jpg");
+ImageIcon image6 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia6.jpg");
      JButton button6 = new JButton("");
      button6.setIcon(image6);
      button6.addMouseListener(new MouseAdapter() {
@@ -141,7 +141,7 @@ ImageIcon image6 = new ImageIcon("C:/Users/tomer/Documents/Nokia6.jpg");
      p.add(button6);
      
 	  
-ImageIcon image7 = new ImageIcon("C:/Users/tomer/Documents/Nokia7.jpg");
+ImageIcon image7 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia7.jpg");
      JButton button7 = new JButton("");
      button7.setIcon(image7);
      button7.addMouseListener(new MouseAdapter() {
@@ -155,7 +155,7 @@ ImageIcon image7 = new ImageIcon("C:/Users/tomer/Documents/Nokia7.jpg");
      p.add(button7);
      	  
 		  
-ImageIcon image8 = new ImageIcon("C:/Users/tomer/Documents/Nokia8.jpg");
+ImageIcon image8 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia8.jpg");
      JButton button8 = new JButton("");
      button8.setIcon(image8);
      button8.addMouseListener(new MouseAdapter() {
@@ -169,7 +169,7 @@ ImageIcon image8 = new ImageIcon("C:/Users/tomer/Documents/Nokia8.jpg");
      p.add(button8);
 
 
-ImageIcon image9 = new ImageIcon("C:/Users/tomer/Documents/Nokia9.jpg");
+ImageIcon image9 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia9.jpg");
      JButton button9 = new JButton("");
      button9.setIcon(image9);
      button9.addMouseListener(new MouseAdapter() {
@@ -183,7 +183,7 @@ ImageIcon image9 = new ImageIcon("C:/Users/tomer/Documents/Nokia9.jpg");
      p.add(button9);
 	  
 	  
-ImageIcon image0 = new ImageIcon("C:/Users/tomer/Documents/Nokia0.jpg");
+ImageIcon image0 = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia0.jpg");
      JButton button0 = new JButton("");
      button0.setIcon(image0);
      button0.addMouseListener(new MouseAdapter() {
@@ -197,7 +197,7 @@ ImageIcon image0 = new ImageIcon("C:/Users/tomer/Documents/Nokia0.jpg");
      p.add(button0);
      
      
-ImageIcon imageHash = new ImageIcon("C:/Users/tomer/Documents/Nokia#.jpg");
+ImageIcon imageHash = new ImageIcon("C:/Users/tomer/Documents/Nokia/Nokia#.jpg");
      JButton buttonHash = new JButton("");
      buttonHash.setIcon(imageHash);
      buttonHash.addActionListener(new ActionListener() {
@@ -209,7 +209,7 @@ ImageIcon imageHash = new ImageIcon("C:/Users/tomer/Documents/Nokia#.jpg");
      p.add(buttonHash);
      
      
-ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
+ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/Nokia/NokiaStar.png");
      JButton buttonStar = new JButton("");
      buttonStar.setIcon(imageStar);
      buttonStar.addActionListener(new ActionListener() {
@@ -243,12 +243,8 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
      p.add(buttonRIGHT);
      
      
-     ImageIcon imageRight = new ImageIcon("C:/Users/tomer/Documents/NokiaMenuRight.jpg");
+     ImageIcon imageRight = new ImageIcon("C:/Users/tomer/Documents/Nokia/NokiaMenuRight.jpg");
      JButton MenuRight = new JButton("");
-     MenuRight.addActionListener(new ActionListener() {
-     	public void actionPerformed(ActionEvent e) {
-     	}
-     });
      MenuRight.setIcon(imageRight);
      MenuRight.addMouseListener(new MouseAdapter() {
      	@Override
@@ -268,7 +264,7 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
      p.add(MenuRight);
      
      
-     ImageIcon imageLeft = new ImageIcon("C:/Users/tomer/Documents/NokiaMenuLeft.jpg");
+     ImageIcon imageLeft = new ImageIcon("C:/Users/tomer/Documents/Nokia/NokiaMenuLeft.jpg");
      JButton MenuLeft = new JButton("");
      MenuLeft.setIcon(imageLeft);
      p.setLayout(null);
@@ -382,7 +378,7 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
 											timer.schedule(timertask, 1000L, 1000L);
 										} 
 											else if (temp.startsWith("+CMT:")) {
-											String Sender = temp;
+											//String Sender = temp;
 											String Number = processMSG(temp);
 											textArea_Debug.setText("Message from " + Number);
 											isGMT = true;	
@@ -408,7 +404,7 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       
        
       //CALL 
-      ImageIcon imageCall = new ImageIcon("C:/Users/tomer/Documents/NokiaAnswer.jpg");
+      ImageIcon imageCall = new ImageIcon("C:/Users/tomer/Documents/Nokia/NokiaAnswer.jpg");
       Answer = new JButton("");
       Answer.setEnabled(false);
       Answer.addActionListener(new ActionListener() {
@@ -429,7 +425,7 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       
       
       //END CALL 
-      ImageIcon imageEnd = new ImageIcon("C:/Users/tomer/Documents/NokiaEnd.jpg");
+      ImageIcon imageEnd = new ImageIcon("C:/Users/tomer/Documents/Nokia/NokiaEnd.jpg");
       JButton HangUp = new JButton("");
       HangUp.setIcon(imageEnd);
       HangUp.addActionListener(new ActionListener() {
@@ -466,10 +462,10 @@ ImageIcon imageStar = new ImageIcon("C:/Users/tomer/Documents/NokiaStar.png");
       
       addWindowListener(new WindowAdapter() {
   		public void windowClosing(WindowEvent arg0) {
-  			String endc = "ATH\r";
-        		byte[] bytearrendc = endc.getBytes(); 
-        		PortChosen.writeBytes(bytearrendc, bytearrendc.length);
-  			PortChosen.closePort();
+  			//String endc = "ATH\r";
+        		//byte[] bytearrendc = endc.getBytes(); 
+        		//PortChosen.writeBytes(bytearrendc, bytearrendc.length);
+  			//PortChosen.closePort();
   		}
   	});
      } //END OF WINDOW2
